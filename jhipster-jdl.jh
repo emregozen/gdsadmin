@@ -1,0 +1,70 @@
+entity Airline {
+	airlineId Long,
+    airlineCode String,
+    airlineName String
+}
+
+entity Airport {
+	airportId Long,
+    airportCode String,
+    cityCode String,
+    countryCode String,
+    isDomestic Boolean
+}
+
+entity AirportName {
+	airportNameId Long,
+    airportCode String,
+    language String
+}
+
+entity City {
+	cityId Long,
+    cityCode String,
+    countryCode String
+}
+
+entity CityName {
+	cityNameId Long,
+    cityCode String,
+    cityName String,
+    language String
+}
+
+entity Country {
+	countryId Long,
+    countryCode String,
+    country3Code String,
+    phoneCode String,
+    numericCode String
+}
+
+entity CountryName {
+	countryNameId Long,
+    countryCode String,
+    countryName String,
+    language String
+}
+
+entity StateName {
+	stateNameId Long,
+	countryCode String,
+	stateCode String,
+	stateName String,
+	language String
+}
+
+entity ParameterPair {
+	parameterPairId Long,
+	parameterKey String,
+	parameterValue String
+}
+
+entity Message {
+	messageId Long,
+	messageKey String,
+	messageValue String,
+	language String
+}
+
+service all with serviceImpl

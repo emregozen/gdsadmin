@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="cityName">
+            <h2><span>City Name</span> {{cityName.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>City Name Id</span></dt>
+                <dd>
+                    <span>{{cityName.cityNameId}}</span>
+                </dd>
+                <dt><span>City Code</span></dt>
+                <dd>
+                    <span>{{cityName.cityCode}}</span>
+                </dd>
+                <dt><span>City Name</span></dt>
+                <dd>
+                    <span>{{cityName.cityName}}</span>
+                </dd>
+                <dt><span>Language</span></dt>
+                <dd>
+                    <span>{{cityName.language}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/city-name', cityName.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

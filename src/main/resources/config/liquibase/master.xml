@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173816_added_entity_Airline.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173817_added_entity_Airport.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173818_added_entity_AirportName.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173819_added_entity_City.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173820_added_entity_CityName.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173821_added_entity_Country.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173822_added_entity_CountryName.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173823_added_entity_StateName.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173824_added_entity_ParameterPair.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181205173825_added_entity_Message.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+</databaseChangeLog>
