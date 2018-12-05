@@ -5,6 +5,8 @@ import com.gds.admin.domain.Airport;
 import com.gds.admin.service.AirportService;
 import com.gds.admin.web.rest.errors.BadRequestAlertException;
 import com.gds.admin.web.rest.util.HeaderUtil;
+import com.gds.admin.service.dto.AirportCriteria;
+import com.gds.admin.service.AirportQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,11 @@ public class AirportResource {
 
     private final AirportService airportService;
 
-    public AirportResource(AirportService airportService) {
+    private final AirportQueryService airportQueryService;
+
+    public AirportResource(AirportService airportService, AirportQueryService airportQueryService) {
         this.airportService = airportService;
+        this.airportQueryService = airportQueryService;
     }
 
     /**
@@ -82,13 +87,28 @@ public class AirportResource {
     /**
      * GET  /airports : get all the airports.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of airports in body
      */
     @GetMapping("/airports")
     @Timed
-    public List<Airport> getAllAirports() {
-        log.debug("REST request to get all Airports");
-        return airportService.findAll();
+    public ResponseEntity<List<Airport>> getAllAirports(AirportCriteria criteria) {
+        log.debug("REST request to get Airports by criteria: {}", criteria);
+        List<Airport> entityList = airportQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /airports/count : count all the airports.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/airports/count")
+    @Timed
+    public ResponseEntity<Long> countAirports(AirportCriteria criteria) {
+        log.debug("REST request to count Airports by criteria: {}", criteria);
+        return ResponseEntity.ok().body(airportQueryService.countByCriteria(criteria));
     }
 
     /**

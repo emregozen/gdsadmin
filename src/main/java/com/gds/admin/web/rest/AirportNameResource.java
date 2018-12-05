@@ -5,6 +5,8 @@ import com.gds.admin.domain.AirportName;
 import com.gds.admin.service.AirportNameService;
 import com.gds.admin.web.rest.errors.BadRequestAlertException;
 import com.gds.admin.web.rest.util.HeaderUtil;
+import com.gds.admin.service.dto.AirportNameCriteria;
+import com.gds.admin.service.AirportNameQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,11 @@ public class AirportNameResource {
 
     private final AirportNameService airportNameService;
 
-    public AirportNameResource(AirportNameService airportNameService) {
+    private final AirportNameQueryService airportNameQueryService;
+
+    public AirportNameResource(AirportNameService airportNameService, AirportNameQueryService airportNameQueryService) {
         this.airportNameService = airportNameService;
+        this.airportNameQueryService = airportNameQueryService;
     }
 
     /**
@@ -82,13 +87,28 @@ public class AirportNameResource {
     /**
      * GET  /airport-names : get all the airportNames.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of airportNames in body
      */
     @GetMapping("/airport-names")
     @Timed
-    public List<AirportName> getAllAirportNames() {
-        log.debug("REST request to get all AirportNames");
-        return airportNameService.findAll();
+    public ResponseEntity<List<AirportName>> getAllAirportNames(AirportNameCriteria criteria) {
+        log.debug("REST request to get AirportNames by criteria: {}", criteria);
+        List<AirportName> entityList = airportNameQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /airport-names/count : count all the airportNames.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/airport-names/count")
+    @Timed
+    public ResponseEntity<Long> countAirportNames(AirportNameCriteria criteria) {
+        log.debug("REST request to count AirportNames by criteria: {}", criteria);
+        return ResponseEntity.ok().body(airportNameQueryService.countByCriteria(criteria));
     }
 
     /**

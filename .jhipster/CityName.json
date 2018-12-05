@@ -1,0 +1,31 @@
+{
+    "name": "CityName",
+    "fields": [
+        {
+            "fieldName": "cityNameId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "cityCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cityName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "language",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20181205173820",
+    "entityTableName": "city_name",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

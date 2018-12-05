@@ -5,6 +5,8 @@ import com.gds.admin.domain.Message;
 import com.gds.admin.service.MessageService;
 import com.gds.admin.web.rest.errors.BadRequestAlertException;
 import com.gds.admin.web.rest.util.HeaderUtil;
+import com.gds.admin.service.dto.MessageCriteria;
+import com.gds.admin.service.MessageQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,11 @@ public class MessageResource {
 
     private final MessageService messageService;
 
-    public MessageResource(MessageService messageService) {
+    private final MessageQueryService messageQueryService;
+
+    public MessageResource(MessageService messageService, MessageQueryService messageQueryService) {
         this.messageService = messageService;
+        this.messageQueryService = messageQueryService;
     }
 
     /**
@@ -82,13 +87,28 @@ public class MessageResource {
     /**
      * GET  /messages : get all the messages.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of messages in body
      */
     @GetMapping("/messages")
     @Timed
-    public List<Message> getAllMessages() {
-        log.debug("REST request to get all Messages");
-        return messageService.findAll();
+    public ResponseEntity<List<Message>> getAllMessages(MessageCriteria criteria) {
+        log.debug("REST request to get Messages by criteria: {}", criteria);
+        List<Message> entityList = messageQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /messages/count : count all the messages.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/messages/count")
+    @Timed
+    public ResponseEntity<Long> countMessages(MessageCriteria criteria) {
+        log.debug("REST request to count Messages by criteria: {}", criteria);
+        return ResponseEntity.ok().body(messageQueryService.countByCriteria(criteria));
     }
 
     /**

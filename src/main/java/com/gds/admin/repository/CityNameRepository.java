@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface CityNameRepository extends JpaRepository<CityName, Long> {
+public interface CityNameRepository extends JpaRepository<CityName, Long>, JpaSpecificationExecutor<CityName> {
 
 }

@@ -1,0 +1,36 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "gitCompany": "",
+    "baseName": "gdsadmin",
+    "packageName": "com.gds.admin",
+    "packageFolder": "com/gds/admin",
+    "serverPort": 8090,
+    "serviceDiscoveryType": false,
+    "authenticationType": "jwt",
+    "uaaBaseName": "../uaa",
+    "cacheProvider": "no",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "elasticsearch",
+    "enableSwaggerCodegen": false,
+    "messageBroker": false,
+    "buildTool": "maven",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "enableTranslation": false,
+    "nativeLanguage": "en",
+    "languages": [
+      "en"
+    ],
+    "clientFramework": "angularX",
+    "jhiPrefix": "jhi",
+    "jhipsterVersion": "5.7.0",
+    "jwtSecretKey": "OTQ2NDk4NDgyNTQxMWYxNDIwNmEyNzI3NThhYzM2ZTM0OTdkYzkyZGQ2ODcxNmY2NTJmYzQyZWQzNGY3MThjNTY1ZmM4OGQxYzRiOGE5MWVkZGRhM2RkY2YwNGNkOGRlNTVmNmY1NTkxMWUxMTFkNjRmM2Y1OWNjOGFhZGVhYjc=",
+    "otherModules": []
+  }
+}

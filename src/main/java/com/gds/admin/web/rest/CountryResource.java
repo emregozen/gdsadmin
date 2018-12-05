@@ -5,6 +5,8 @@ import com.gds.admin.domain.Country;
 import com.gds.admin.service.CountryService;
 import com.gds.admin.web.rest.errors.BadRequestAlertException;
 import com.gds.admin.web.rest.util.HeaderUtil;
+import com.gds.admin.service.dto.CountryCriteria;
+import com.gds.admin.service.CountryQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,11 @@ public class CountryResource {
 
     private final CountryService countryService;
 
-    public CountryResource(CountryService countryService) {
+    private final CountryQueryService countryQueryService;
+
+    public CountryResource(CountryService countryService, CountryQueryService countryQueryService) {
         this.countryService = countryService;
+        this.countryQueryService = countryQueryService;
     }
 
     /**
@@ -82,13 +87,28 @@ public class CountryResource {
     /**
      * GET  /countries : get all the countries.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of countries in body
      */
     @GetMapping("/countries")
     @Timed
-    public List<Country> getAllCountries() {
-        log.debug("REST request to get all Countries");
-        return countryService.findAll();
+    public ResponseEntity<List<Country>> getAllCountries(CountryCriteria criteria) {
+        log.debug("REST request to get Countries by criteria: {}", criteria);
+        List<Country> entityList = countryQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /countries/count : count all the countries.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/countries/count")
+    @Timed
+    public ResponseEntity<Long> countCountries(CountryCriteria criteria) {
+        log.debug("REST request to count Countries by criteria: {}", criteria);
+        return ResponseEntity.ok().body(countryQueryService.countByCriteria(criteria));
     }
 
     /**

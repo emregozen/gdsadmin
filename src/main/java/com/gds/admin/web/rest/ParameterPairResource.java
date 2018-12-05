@@ -5,6 +5,8 @@ import com.gds.admin.domain.ParameterPair;
 import com.gds.admin.service.ParameterPairService;
 import com.gds.admin.web.rest.errors.BadRequestAlertException;
 import com.gds.admin.web.rest.util.HeaderUtil;
+import com.gds.admin.service.dto.ParameterPairCriteria;
+import com.gds.admin.service.ParameterPairQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,11 @@ public class ParameterPairResource {
 
     private final ParameterPairService parameterPairService;
 
-    public ParameterPairResource(ParameterPairService parameterPairService) {
+    private final ParameterPairQueryService parameterPairQueryService;
+
+    public ParameterPairResource(ParameterPairService parameterPairService, ParameterPairQueryService parameterPairQueryService) {
         this.parameterPairService = parameterPairService;
+        this.parameterPairQueryService = parameterPairQueryService;
     }
 
     /**
@@ -82,13 +87,28 @@ public class ParameterPairResource {
     /**
      * GET  /parameter-pairs : get all the parameterPairs.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of parameterPairs in body
      */
     @GetMapping("/parameter-pairs")
     @Timed
-    public List<ParameterPair> getAllParameterPairs() {
-        log.debug("REST request to get all ParameterPairs");
-        return parameterPairService.findAll();
+    public ResponseEntity<List<ParameterPair>> getAllParameterPairs(ParameterPairCriteria criteria) {
+        log.debug("REST request to get ParameterPairs by criteria: {}", criteria);
+        List<ParameterPair> entityList = parameterPairQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /parameter-pairs/count : count all the parameterPairs.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/parameter-pairs/count")
+    @Timed
+    public ResponseEntity<Long> countParameterPairs(ParameterPairCriteria criteria) {
+        log.debug("REST request to count ParameterPairs by criteria: {}", criteria);
+        return ResponseEntity.ok().body(parameterPairQueryService.countByCriteria(criteria));
     }
 
     /**

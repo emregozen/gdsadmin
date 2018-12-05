@@ -68,3 +68,5 @@ entity Message {
 }
 
 service all with serviceImpl
+
+filter *

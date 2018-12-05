@@ -5,6 +5,8 @@ import com.gds.admin.domain.CountryName;
 import com.gds.admin.service.CountryNameService;
 import com.gds.admin.web.rest.errors.BadRequestAlertException;
 import com.gds.admin.web.rest.util.HeaderUtil;
+import com.gds.admin.service.dto.CountryNameCriteria;
+import com.gds.admin.service.CountryNameQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,11 @@ public class CountryNameResource {
 
     private final CountryNameService countryNameService;
 
-    public CountryNameResource(CountryNameService countryNameService) {
+    private final CountryNameQueryService countryNameQueryService;
+
+    public CountryNameResource(CountryNameService countryNameService, CountryNameQueryService countryNameQueryService) {
         this.countryNameService = countryNameService;
+        this.countryNameQueryService = countryNameQueryService;
     }
 
     /**
@@ -82,13 +87,28 @@ public class CountryNameResource {
     /**
      * GET  /country-names : get all the countryNames.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of countryNames in body
      */
     @GetMapping("/country-names")
     @Timed
-    public List<CountryName> getAllCountryNames() {
-        log.debug("REST request to get all CountryNames");
-        return countryNameService.findAll();
+    public ResponseEntity<List<CountryName>> getAllCountryNames(CountryNameCriteria criteria) {
+        log.debug("REST request to get CountryNames by criteria: {}", criteria);
+        List<CountryName> entityList = countryNameQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /country-names/count : count all the countryNames.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/country-names/count")
+    @Timed
+    public ResponseEntity<Long> countCountryNames(CountryNameCriteria criteria) {
+        log.debug("REST request to count CountryNames by criteria: {}", criteria);
+        return ResponseEntity.ok().body(countryNameQueryService.countByCriteria(criteria));
     }
 
     /**

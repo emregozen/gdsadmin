@@ -5,6 +5,8 @@ import com.gds.admin.domain.StateName;
 import com.gds.admin.service.StateNameService;
 import com.gds.admin.web.rest.errors.BadRequestAlertException;
 import com.gds.admin.web.rest.util.HeaderUtil;
+import com.gds.admin.service.dto.StateNameCriteria;
+import com.gds.admin.service.StateNameQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,11 @@ public class StateNameResource {
 
     private final StateNameService stateNameService;
 
-    public StateNameResource(StateNameService stateNameService) {
+    private final StateNameQueryService stateNameQueryService;
+
+    public StateNameResource(StateNameService stateNameService, StateNameQueryService stateNameQueryService) {
         this.stateNameService = stateNameService;
+        this.stateNameQueryService = stateNameQueryService;
     }
 
     /**
@@ -82,13 +87,28 @@ public class StateNameResource {
     /**
      * GET  /state-names : get all the stateNames.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of stateNames in body
      */
     @GetMapping("/state-names")
     @Timed
-    public List<StateName> getAllStateNames() {
-        log.debug("REST request to get all StateNames");
-        return stateNameService.findAll();
+    public ResponseEntity<List<StateName>> getAllStateNames(StateNameCriteria criteria) {
+        log.debug("REST request to get StateNames by criteria: {}", criteria);
+        List<StateName> entityList = stateNameQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /state-names/count : count all the stateNames.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/state-names/count")
+    @Timed
+    public ResponseEntity<Long> countStateNames(StateNameCriteria criteria) {
+        log.debug("REST request to count StateNames by criteria: {}", criteria);
+        return ResponseEntity.ok().body(stateNameQueryService.countByCriteria(criteria));
     }
 
     /**

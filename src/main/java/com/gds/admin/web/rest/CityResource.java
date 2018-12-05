@@ -5,6 +5,8 @@ import com.gds.admin.domain.City;
 import com.gds.admin.service.CityService;
 import com.gds.admin.web.rest.errors.BadRequestAlertException;
 import com.gds.admin.web.rest.util.HeaderUtil;
+import com.gds.admin.service.dto.CityCriteria;
+import com.gds.admin.service.CityQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,11 @@ public class CityResource {
 
     private final CityService cityService;
 
-    public CityResource(CityService cityService) {
+    private final CityQueryService cityQueryService;
+
+    public CityResource(CityService cityService, CityQueryService cityQueryService) {
         this.cityService = cityService;
+        this.cityQueryService = cityQueryService;
     }
 
     /**
@@ -82,13 +87,28 @@ public class CityResource {
     /**
      * GET  /cities : get all the cities.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of cities in body
      */
     @GetMapping("/cities")
     @Timed
-    public List<City> getAllCities() {
-        log.debug("REST request to get all Cities");
-        return cityService.findAll();
+    public ResponseEntity<List<City>> getAllCities(CityCriteria criteria) {
+        log.debug("REST request to get Cities by criteria: {}", criteria);
+        List<City> entityList = cityQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /cities/count : count all the cities.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/cities/count")
+    @Timed
+    public ResponseEntity<Long> countCities(CityCriteria criteria) {
+        log.debug("REST request to count Cities by criteria: {}", criteria);
+        return ResponseEntity.ok().body(cityQueryService.countByCriteria(criteria));
     }
 
     /**
